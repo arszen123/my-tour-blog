@@ -1,0 +1,29 @@
+<div class="container" style="justify-content: center">
+  <div id="header">
+    <div id="profile-picture">
+      <img [src]="user.photoURL || '//via.placeholder.com/350x350'" alt="Profile photo"/>
+    </div>
+    <div id="user-data">
+      <h1>{{ user.displayName }}</h1>
+      <div id="user-info">
+        <p [innerHTML]="user.info | nl2br"></p>
+      </div>
+    </div>
+  </div>
+  <div id="user-posts">
+    <div>
+      It's a user post
+    </div>
+    <div>
+      It's a user post
+    </div>
+    <div>
+      It's a user post
+    </div>
+    <div>
+      It's a user post
+    </div>
+  </div>
+
+  <button id="edit" *ngIf="isCurrentUser" (click)="showEditForm()" mat-fab><mat-icon>edit</mat-icon></button>
+</div>

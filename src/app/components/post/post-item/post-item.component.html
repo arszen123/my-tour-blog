@@ -1,0 +1,12 @@
+<div id="images">
+  <div *ngFor="let image of post.images" class="image">
+    <img [src]="image" [width]="width" [height]="height"/>
+  </div>
+</div>
+<div id="title">
+  {{ post.title }}
+</div>
+<div id="content">
+  {{ post.content }}
+</div>
+<a [routerLink]="'/user/' + post.uid">Author</a>

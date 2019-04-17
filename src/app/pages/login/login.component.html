@@ -1,0 +1,7 @@
+<ngx-auth-firebaseui
+  [providers]="[providers.Github]"
+  [guestEnabled]="false"
+  messageOnAuthError="Authentication failed!"
+  goBackURL="/"
+  (onSuccess)="printUser($event)"
+  (onError)="printError($event)"></ngx-auth-firebaseui>

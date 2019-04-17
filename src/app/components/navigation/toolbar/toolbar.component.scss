@@ -1,0 +1,13 @@
+a {
+  &, &:active, &:hover {
+    color: lightgray;
+    text-decoration: none;
+  }
+  &:hover {
+    color: #ffffff;
+  }
+}
+
+.navigation-items {
+  list-style: none;
+}

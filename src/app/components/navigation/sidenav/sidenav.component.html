@@ -1,0 +1,5 @@
+<mat-nav-list>
+  <a *ngIf="isAuth" mat-list-item (click)="sidenavCloser()"><mat-icon>face</mat-icon><span class="nav-caption">Profile</span></a>
+  <a *ngIf="!isAuth" mat-list-item (click)="sidenavCloser()"><mat-icon>input</mat-icon><span class="nav-caption">Login</span></a>
+  <a *ngIf="isAuth" mat-list-item (click)="logout(); sidenavCloser()"><mat-icon>eject</mat-icon><span class="nav-caption">Logout</span></a>
+</mat-nav-list>

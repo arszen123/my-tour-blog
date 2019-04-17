@@ -1,0 +1,8 @@
+<div id="images">
+  <div *ngFor="let url of urls; let i = index" class="image">
+    <img [src]="url" [width]="width" [height]="height"/>
+    <button (click)="delete(i)" mat-button color="warn">Delete</button>
+  </div>
+</div>
+<input id="files" type="file" [multiple]="multiple">
+<button id="files-button" mat-button color="primary">Choose file</button>
