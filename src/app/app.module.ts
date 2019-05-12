@@ -21,12 +21,13 @@ import {UserServiceService} from './services/user-service.service';
 import {MatCardModule, MatDialogModule} from '@angular/material';
 import {UserEditComponent} from './components/user/user-edit/user-edit.component';
 import {Nl2brPipe} from './directives/nl2br.pipe';
-import {MapComponent} from './pages/map/map.component';
+import {MapComponent} from './components/map/map.component';
 import {NavigatorService} from './services/navigator.service';
 import {AgmSnazzyInfoWindowModule} from '@agm/snazzy-info-window';
 import {ImageUploadComponent} from './components/image-upload/image-upload.component';
 import {PostCreateComponent} from './components/post/post-create/post-create.component';
 import {PostItemComponent} from './components/post/post-item/post-item.component';
+import {PostListComponent} from '@app-pages/post-list/post-list.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import {PostItemComponent} from './components/post/post-item/post-item.component
     Nl2brPipe,
     ImageUploadComponent,
     PostCreateComponent,
-    PostItemComponent
+    PostItemComponent,
+    PostListComponent
   ],
   imports: [
     BrowserModule,

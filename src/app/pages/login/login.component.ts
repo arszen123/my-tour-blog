@@ -15,12 +15,4 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  printUser(event) {
-    console.log(event);
-  }
-
-  printError(event) {
-    console.error(event);
-  }
-
 }

@@ -8,4 +8,11 @@ body {
   margin: 0;
   min-height: 100%;
   background: #fafafa;
+  overflow:hidden;
+}
+main {
+  height: inherit;
+}
+app-post-list {
+  height: inherit;
 }

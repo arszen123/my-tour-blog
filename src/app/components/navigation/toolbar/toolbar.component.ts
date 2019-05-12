@@ -1,5 +1,5 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import {AuthUserService} from '../../../services/auth-user.service';
+import {Component, OnInit, Output, EventEmitter} from '@angular/core';
+import {AuthUserService} from '@app-root/services/auth-user.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -10,7 +10,8 @@ export class ToolbarComponent implements OnInit {
   @Output() toggleEmitter = new EventEmitter<void>();
   private isAuth: boolean;
 
-  constructor(private auth: AuthUserService) { }
+  constructor(private auth: AuthUserService) {
+  }
 
   ngOnInit() {
     this.isAuth = this.auth.isAuthenticated();

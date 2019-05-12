@@ -36,10 +36,22 @@ mat-card {
       border-radius: 100%;
     }
   }
-
+  @media (max-width: 960px) {
+    #profile-picture {
+      &, img {
+        width: 150px;
+        height: 150px;
+        float: left;
+      }
+    }
+  }
   #user-data {
     word-break: break-word;
     margin-left: 350px;
+
+    @media (max-width: 960px) {
+      margin-left: 150px;
+    }
     overflow: hidden;
   }
 }
@@ -49,4 +61,8 @@ mat-card {
   position: fixed;
   left: 10px;
   bottom: 10px;
+}
+
+#user-posts {
+  height: 500px;
 }

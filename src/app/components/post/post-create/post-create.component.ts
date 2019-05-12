@@ -1,8 +1,9 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Post} from '../../../models/Post';
-import {Coords} from '../../../models/Coords';
-import {PostService} from '../../../services/post.service';
 import * as firebase from 'firebase';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Post} from '@app-root/models/Post';
+import {Coords} from '@app-root/models/Coords';
+import {PostService} from '@app-root/services/post.service';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-post-create',
@@ -11,17 +12,25 @@ import * as firebase from 'firebase';
 })
 export class PostCreateComponent implements OnInit {
   @Output() onSave: EventEmitter<any>;
-  @Input() post: Post|null;
+  @Output() onDelete: EventEmitter<any>;
+  @Input() post: Post | null;
   @Input() location: Coords;
+  private canDelete: boolean;
+  private images: any;
+  private urls: any;
 
   constructor(
-    private postService: PostService
+    private postService: PostService,
+    private snackBar: MatSnackBar
   ) {
+    this.onSave = new EventEmitter();
+    this.onDelete = new EventEmitter();
   }
 
   ngOnInit() {
-    this.onSave = new EventEmitter();
+    this.canDelete = true;
     if (!this.post) {
+      this.canDelete = false;
       this.post = {
         id: null,
         title: '',
@@ -30,12 +39,37 @@ export class PostCreateComponent implements OnInit {
         location: new firebase.firestore.GeoPoint(this.location.lat, this.location.lng),
       };
     }
+    this.images = [];
+    this.urls = this.post.images;
   }
 
   save() {
-    console.log(this.post);
-    // this.postService.savePost(this.post);
-    this.onSave.emit();
+    this.postService.savePost({...this.post, images: this.images}, this.urls).then((post) => {
+      console.log(post, this.post);
+      this.post = post;
+      this.onSave.emit(this.post);
+      this.snackBar.open('Post saved successfully!', 'Ok', {
+        duration: 2000
+      });
+    });
   }
 
+  delete() {
+    this.postService.deletePost(this.post.id).then(() => {
+      this.onDelete.emit(this.post.id);
+      this.snackBar.open('Post deleted successfully!', 'Ok', {
+        duration: 2000
+      });
+    });
+  }
+
+  deleteUrl(i) {
+    const tmpImages = [];
+    for (const idx in this.urls) {
+      if (i != idx) {
+        tmpImages.push(this.urls[idx]);
+      }
+    }
+    this.urls = tmpImages;
+  }
 }

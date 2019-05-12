@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {User} from '../models/User';
+import {User} from '@app-root/models/User';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireStorage} from '@angular/fire/storage';
@@ -38,6 +38,27 @@ export class UserServiceService {
       this.store.doc(`/users/${uid}`).ref.get().then(value => {
         return resolve(value.data());
       });
+    });
+  }
+
+  public async save({
+         photoURL,
+         file,
+         isFileChanged,
+         user
+       }) {
+    if (file !== null && isFileChanged) {
+      photoURL = `/users/${user.uid}/avatar`;
+      await this.storage.upload(photoURL, file);
+    }
+    if (file === null && isFileChanged) {
+      photoURL = null;
+      await this.storage.ref(`/users/${user.uid}/avatar`).delete();
+    }
+    return await this.store.doc(`/users/${user.uid}`).update({
+      displayName: user.displayName,
+      info: user.info,
+      photoURL,
     });
   }
 }

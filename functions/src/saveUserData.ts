@@ -12,10 +12,6 @@ export const saveUserData = functions.auth.user().onCreate((user) => {
     email: user.email,
     phoneNumber: user.phoneNumber,
     uid: user.uid
-  }).then(() => {
-    console.log('success');
-  }).catch((error) => {
-    console.error(error);
   });
   return user;
 });

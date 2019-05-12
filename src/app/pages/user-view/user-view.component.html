@@ -11,18 +11,7 @@
     </div>
   </div>
   <div id="user-posts">
-    <div>
-      It's a user post
-    </div>
-    <div>
-      It's a user post
-    </div>
-    <div>
-      It's a user post
-    </div>
-    <div>
-      It's a user post
-    </div>
+    <app-map [userId]="user.uid"></app-map>
   </div>
 
   <button id="edit" *ngIf="isCurrentUser" (click)="showEditForm()" mat-fab><mat-icon>edit</mat-icon></button>

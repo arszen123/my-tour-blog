@@ -1,12 +1,19 @@
+<div id="container">
+<div id="title">
+  {{ post.title }}
+</div>
 <div id="images">
   <div *ngFor="let image of post.images" class="image">
     <img [src]="image" [width]="width" [height]="height"/>
   </div>
 </div>
-<div id="title">
-  {{ post.title }}
+<div id="content" [innerHTML]="post.content|nl2br">
 </div>
-<div id="content">
-  {{ post.content }}
+<a [routerLink]="'/user/' + post.uid">
+  <button mat-button color="primary">Author</button>
+</a>
+<button *ngIf="isMyPost"
+        mat-button
+        color="primary"
+        (click)="doEditPost()">Edit</button>
 </div>
-<a [routerLink]="'/user/' + post.uid">Author</a>

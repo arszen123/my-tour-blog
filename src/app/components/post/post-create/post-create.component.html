@@ -1,5 +1,11 @@
 <form ngForm>
-  <app-image-upload (images)="post.images = $event" [images]="post.images" [multiple]="true"></app-image-upload>
+  <div id="images">
+    <div *ngFor="let url of urls; let i = index" class="image">
+      <img [src]="url" [width]="250" [height]="250"/>
+      <button (click)="deleteUrl(i)" mat-button color="warn">Delete</button>
+    </div>
+  </div>
+  <app-image-upload (images)="images = $event" [images]="images" [multiple]="true"></app-image-upload>
   <mat-form-field>
     <input id="title" matInput placeholder="Title" [(ngModel)]="post.title" name="title">
   </mat-form-field>
@@ -7,4 +13,5 @@
     <textarea id="content" matInput placeholder="Content" [(ngModel)]="post.content" name="content"></textarea>
   </mat-form-field>
   <button mat-button color="primary" (click)="save()">Save</button>
+  <button *ngIf="canDelete" mat-button color="warn" (click)="delete()">Delete</button>
 </form>

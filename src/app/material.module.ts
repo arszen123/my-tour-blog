@@ -4,7 +4,12 @@ import {
   MatIconModule,
   MatFormFieldModule,
   MatInputModule,
-  MatSidenavModule, MatNavList, MatToolbarModule, MatListModule, MatCardModule, MatGridListModule, MatDialogModule
+  MatSidenavModule,
+  MatToolbarModule,
+  MatListModule,
+  MatCardModule,
+  MatGridListModule,
+  MatDialogModule,
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 

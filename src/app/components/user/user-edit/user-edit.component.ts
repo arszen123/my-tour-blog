@@ -1,9 +1,10 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {User} from '../../../models/User';
+import {MAT_DIALOG_DATA, MatDialogRef, MatSnackBar} from '@angular/material';
+import {User} from '@app-root/models/User';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {HTMLInputEvent} from '../../../models/HtmlInputEvent';
+import {HTMLInputEvent} from '@app-root/models/HtmlInputEvent';
 import {AngularFireStorage} from '@angular/fire/storage';
+import {UserServiceService} from '@app-root/services/user-service.service';
 
 @Component({
   selector: 'app-user-edit',
@@ -20,6 +21,8 @@ export class UserEditComponent implements OnInit {
     public dialogRef: MatDialogRef<UserEditComponent>,
     private store: AngularFirestore,
     private storage: AngularFireStorage,
+    private userService: UserServiceService,
+    private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data
   ) {
     this.user = data.user;
@@ -31,23 +34,15 @@ export class UserEditComponent implements OnInit {
   }
 
   save() {
-    let photoURL = this.user.photoURL;
-    if (this.file !== null && this.isFileChanged) {
-      photoURL = `/users/${this.user.uid}/avatar`;
-      this.storage.upload(photoURL, this.file);
-    }
-    if (this.file === null && this.isFileChanged) {
-      photoURL = null;
-      this.storage.ref(`/users/${this.user.uid}/avatar`).delete();
-    }
-    this.store.doc(`/users/${this.user.uid}`).update({
-      displayName: this.user.displayName,
-      info: this.user.info,
-      photoURL,
+    this.userService.save({
+      photoURL: this.user.photoURL,
+      file: this.file,
+      isFileChanged: this.isFileChanged,
+      user: this.user
     }).then(() => {
-      console.log('success');
-    }).catch((error) => {
-      console.log('failed', error);
+      this.snackBar.open('Updated successfully!', undefined, {
+        duration: 2000
+      });
     });
     this.dialogRef.close();
   }

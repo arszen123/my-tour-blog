@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {HTMLInputEvent} from '../../models/HtmlInputEvent';
+import {HTMLInputEvent} from '@app-root/models/HtmlInputEvent';
 
 @Component({
   selector: 'app-image-upload',
@@ -28,7 +28,6 @@ export class ImageUploadComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.images);
     document.getElementById('files-button').addEventListener('click', () => {
       document.getElementById('files').click();
     });
@@ -55,7 +54,6 @@ export class ImageUploadComponent implements OnInit {
     this.urls = this.urls.filter((value, index) => {
       return index !== i;
     });
-    console.log(this.images);
     this.images = this.images.filter((value, index) => {
       return index !== i;
     });

@@ -1,19 +1,21 @@
 <agm-map (mapRightClick)="mapRightClick($event)"
          (mapClick)="mapClick()"
+         (boundsChange)="onMapBoundChanged($event)"
          [latitude]="center.lat"
          [longitude]="center.lng"
         [fullscreenControl]="true">
   <agm-marker *ngIf="newMarker !== null" [latitude]="newMarker.lat" [longitude]="newMarker.lng">
     <agm-snazzy-info-window [maxWidth]="500" [maxHeight]="500"  [closeWhenOthersOpen]="true">
       <ng-template>
-        <app-post-create [location]="newMarker"></app-post-create>
+        <app-post-create [location]="newMarker" (onSave)="postSaved($event, true)"></app-post-create>
       </ng-template>
     </agm-snazzy-info-window>
   </agm-marker>
   <agm-marker *ngFor="let post of posts" [latitude]="post.location.latitude" [longitude]="post.location.longitude">
-    <agm-snazzy-info-window [maxWidth]="500" [maxHeight]="500"  [closeWhenOthersOpen]="true">
+    <agm-snazzy-info-window [maxWidth]="500" [maxHeight]="500"  [closeWhenOthersOpen]="true" (afterClose)="doEditPost(null)">
       <ng-template>
-        <app-post-item [post]="post"></app-post-item>
+        <app-post-item *ngIf="editPostId !== post.id" (editPost)="doEditPost(post.id)" [post]="post"></app-post-item>
+        <app-post-create *ngIf="editPostId === post.id" (onSave)="postSaved($event, false)" (onDelete)="postDeleted($event)" [post]="post"></app-post-create>
       </ng-template>
     </agm-snazzy-info-window>
   </agm-marker>

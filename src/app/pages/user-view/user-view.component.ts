@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {UserServiceService} from '../../../services/user-service.service';
-import {User} from '../../../models/User';
-import {ActivatedRoute, Router} from '@angular/router';
-import {UserEditComponent} from '../user-edit/user-edit.component';
 import {MatDialog} from '@angular/material';
+import {Component, OnInit} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
+import {ActivatedRoute, Router} from '@angular/router';
+import {User} from '@app-root/models/User';
+import {UserServiceService} from '@app-root/services/user-service.service';
+import {UserEditComponent} from '@app-components/user/user-edit/user-edit.component';
 
 @Component({
   selector: 'app-user-view',
@@ -37,7 +37,6 @@ export class UserViewComponent implements OnInit {
     this.userService.getUser(uid).then(value => {
       this.user = value;
       this.isCurrentUser = this.afAuth.auth.currentUser.uid === this.user.uid;
-      this.isCurrentUser = true;
     });
   }
 
