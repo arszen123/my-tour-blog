@@ -15,7 +15,15 @@ export class AuthUserService {
     return this.user !== null;
   }
 
-  logout() {
+  public getUserId() {
+    return this.isAuthenticated() ? this.user.uid : null;
+  }
+
+  public getUser() {
+    return this.user;
+  }
+
+  public logout() {
     this.afAuth.auth.signOut();
   }
 }

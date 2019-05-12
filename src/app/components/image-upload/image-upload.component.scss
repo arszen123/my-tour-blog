@@ -6,10 +6,12 @@ input[type="file"] {
   overflow-x: auto;
   display: inline-flex;
   width: -webkit-fill-available;
+
   img {
     padding-left: 5px;
     display: block;
   }
+
   .image {
     text-align: center;
   }

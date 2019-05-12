@@ -10,8 +10,8 @@ export class ImageUploadComponent implements OnInit {
   @Input() multiple = false;
   @Input() width = '250';
   @Input() height = '250';
-  files: any;
   @Output('images') imagesChange = new EventEmitter<any>();
+  private files: any;
   private urls: Array<string> | null;
 
   @Input('images')

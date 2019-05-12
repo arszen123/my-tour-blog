@@ -1,19 +1,19 @@
 <div id="container">
-<div id="title">
-  {{ post.title }}
-</div>
-<div id="images">
-  <div *ngFor="let image of post.images" class="image">
-    <img [src]="image" [width]="width" [height]="height"/>
+  <div id="title">
+    {{ post.title }}
   </div>
-</div>
-<div id="content" [innerHTML]="post.content|nl2br">
-</div>
-<a [routerLink]="'/user/' + post.uid">
-  <button mat-button color="primary">Author</button>
-</a>
-<button *ngIf="isMyPost"
-        mat-button
-        color="primary"
-        (click)="doEditPost()">Edit</button>
+  <div id="images">
+    <div *ngFor="let image of post.images" class="image">
+      <img [src]="image" [width]="width" [height]="height"/>
+    </div>
+  </div>
+  <div id="content" [innerHTML]="post.content|nl2br">
+  </div>
+  <a [routerLink]="'/user/' + post.uid">
+    <button mat-button color="primary">Author</button>
+  </a>
+  <button *ngIf="isMyPost"
+          mat-button
+          color="primary"
+          (click)="doEditPost()">Edit</button>
 </div>

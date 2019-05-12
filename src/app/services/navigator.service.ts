@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Coords} from '@app-root/models/Coords';
 
 @Injectable({
@@ -6,12 +6,13 @@ import {Coords} from '@app-root/models/Coords';
 })
 export class NavigatorService {
 
-  constructor() { }
-
+  /**
+   * Get user lat/lng or return default
+   */
   public getPosition(): Coords {
     const result = {
-      lat: 0,
-      lng: 0
+      lat: 59.911491,
+      lng: 10.757933
     };
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {

@@ -36,6 +36,7 @@ mat-card {
       border-radius: 100%;
     }
   }
+
   @media (max-width: 960px) {
     #profile-picture {
       &, img {
@@ -45,6 +46,7 @@ mat-card {
       }
     }
   }
+
   #user-data {
     word-break: break-word;
     margin-left: 350px;

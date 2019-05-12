@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 import {
   MatButtonModule,
   MatIconModule,
@@ -11,7 +11,7 @@ import {
   MatGridListModule,
   MatDialogModule,
 } from '@angular/material';
-import { FlexLayoutModule } from '@angular/flex-layout';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 @NgModule({
   imports: [
@@ -41,4 +41,5 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatDialogModule
   ]
 })
-export class MaterialModule { }
+export class MaterialModule {
+}

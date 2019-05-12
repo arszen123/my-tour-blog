@@ -2,6 +2,9 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Coords} from '@app-root/models/Coords';
 import {NavigatorService} from '@app-root/services/navigator.service';
 import {PostService} from '@app-root/services/post.service';
+import {AuthUserService} from '@app-root/services/auth-user.service';
+import {MatSnackBar} from '@angular/material';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-map',
@@ -18,7 +21,10 @@ export class MapComponent implements OnInit {
 
   constructor(
     private navigatorService: NavigatorService,
-    private postService: PostService
+    private postService: PostService,
+    private afAuth: AuthUserService,
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {
     this.center = this.navigatorService.getPosition();
   }
@@ -31,11 +37,20 @@ export class MapComponent implements OnInit {
   }
 
   mapRightClick({coords}) {
+    if (!this.afAuth.isAuthenticated()) {
+      this.snackBar.open('You must log in, to create post.', 'Ok', {
+        duration: 2000
+      }).onAction().subscribe(() => this.router.navigate(['/login']));
+      return;
+    }
     this.newMarker = coords;
   }
 
-  mapClick() {
+  mapClick({coords}) {
     this.newMarker = null;
+    if (/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase())) {
+      this.mapRightClick({coords});
+    }
   }
 
   onMapBoundChanged(mapBound) {
@@ -68,7 +83,6 @@ export class MapComponent implements OnInit {
   }
 
   postSaved($event: any, isNew) {
-    console.log(isNew, $event);
     if (isNew) {
       this.posts.push($event);
       this.newMarker = null;
@@ -87,10 +101,12 @@ export class MapComponent implements OnInit {
   }
 
   postDeleted(postId: string | null) {
+    const tempPost = [];
     for (const i in this.posts) {
-      if (this.posts[i] && this.posts[i].id === postId) {
-        delete this.posts[i];
+      if (!(this.posts[i] && this.posts[i].id === postId)) {
+        tempPost.push(this.posts[i]);
       }
     }
+    this.posts = tempPost;
   }
 }

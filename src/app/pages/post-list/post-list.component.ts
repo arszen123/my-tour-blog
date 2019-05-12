@@ -7,7 +7,9 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class PostListComponent implements OnInit {
   @Input() userId;
-  constructor() { }
+
+  constructor() {
+  }
 
   ngOnInit() {
   }

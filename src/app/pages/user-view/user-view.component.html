@@ -14,5 +14,7 @@
     <app-map [userId]="user.uid"></app-map>
   </div>
 
-  <button id="edit" *ngIf="isCurrentUser" (click)="showEditForm()" mat-fab><mat-icon>edit</mat-icon></button>
+  <button id="edit" *ngIf="isCurrentUser" (click)="showEditForm()" mat-fab>
+    <mat-icon>edit</mat-icon>
+  </button>
 </div>

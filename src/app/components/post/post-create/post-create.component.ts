@@ -11,10 +11,10 @@ import {MatSnackBar} from '@angular/material';
   styleUrls: ['./post-create.component.scss']
 })
 export class PostCreateComponent implements OnInit {
-  @Output() onSave: EventEmitter<any>;
-  @Output() onDelete: EventEmitter<any>;
   @Input() post: Post | null;
   @Input() location: Coords;
+  @Output() onSave: EventEmitter<any>;
+  @Output() onDelete: EventEmitter<any>;
   private canDelete: boolean;
   private images: any;
   private urls: any;
@@ -44,8 +44,11 @@ export class PostCreateComponent implements OnInit {
   }
 
   save() {
+    if (!(this.images.length > 0 || this.urls.length > 0) || this.post.title.length < 5) {
+      this.snackBar.open('Image must be provided and the title must be more then 5 character!', 'Ok', {duration: 2000});
+      return;
+    }
     this.postService.savePost({...this.post, images: this.images}, this.urls).then((post) => {
-      console.log(post, this.post);
       this.post = post;
       this.onSave.emit(this.post);
       this.snackBar.open('Post saved successfully!', 'Ok', {

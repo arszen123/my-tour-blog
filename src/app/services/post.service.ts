@@ -2,9 +2,9 @@ import {Injectable} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {Post} from '@app-root/models/Post';
-import {AngularFireAuth} from '@angular/fire/auth';
 import {LatLngBounds} from '@agm/core';
 import {Observable} from 'rxjs';
+import {AuthUserService} from '@app-root/services/auth-user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +15,15 @@ export class PostService {
   constructor(
     private store: AngularFirestore,
     private storage: AngularFireStorage,
-    private afAuth: AngularFireAuth
+    private auth: AuthUserService
   ) {
-    this.user = afAuth.auth.currentUser;
+    this.user = auth.getUser();
   }
 
-  public async savePost(post: Post, oldImages): Promise<any> {
+  /**
+   * Save or update post
+   */
+  public async savePost(post: Post, oldImages): Promise<Post> {
     if (post === null) {
       return;
     }
@@ -32,17 +35,23 @@ export class PostService {
       this.store.doc(`/posts/${id}`).set(post);
       return post;
     }
-    post.images = await this.saveImages(post, oldImages.length);
+    post.images = await this.saveImages(post, oldImages.length + 1);
     post.images = [...post.images, ...oldImages];
     this.updatePost(post);
     return post;
   }
 
+  /**
+   * Update post
+   */
   private async updatePost(post: Post) {
     const id = post.id;
     await this.store.doc(`/posts/${id}`).update(post);
   }
 
+  /**
+   * Save post images
+   */
   private async saveImages(post: Post, from): Promise<Array<string>> {
     const images = [];
     for (const idx in post.images) {
@@ -56,9 +65,13 @@ export class PostService {
     return images;
   }
 
-  public getPostsByBoundForUser(bounds: LatLngBounds, uid: string|null) {
+  /**
+   * Get user posts by bound.
+   * If uid is null then no filter for user.
+   */
+  public getPostsByBoundForUser(bounds: LatLngBounds, uid: string | null) {
     return new Observable<Array<any>>(subscriber => {
-      const result1 = [];
+      const result = [];
       const observable = this.store.collection(`/posts`).get();
       observable.subscribe(snapshot => {
         const docs = snapshot.docs;
@@ -74,17 +87,16 @@ export class PostService {
           }) || (uid !== null && uid !== doc.uid)) {
             continue;
           }
-          const item = {
+          result.push({
             id: doc.id,
             title: doc.title,
             content: doc.content,
             images: doc.images,
             location: doc.location,
             uid: doc.uid
-          };
-          result1.push(item);
+          });
         }
-        subscriber.next(result1);
+        subscriber.next(result);
       });
     });
   }

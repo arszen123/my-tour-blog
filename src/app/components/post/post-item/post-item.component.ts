@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Post} from '@app-root/models/Post';
-import {AngularFireAuth} from '@angular/fire/auth';
+import {AuthUserService} from '@app-root/services/auth-user.service';
 
 @Component({
   selector: 'app-post-item',
@@ -12,17 +12,15 @@ export class PostItemComponent implements OnInit {
   @Output() editPost: EventEmitter<any>;
   private height = 250;
   private width = 250;
-  private readonly user: firebase.User;
   private isMyPost: boolean;
 
-  constructor(private afAuth: AngularFireAuth) {
-    this.user = afAuth.auth.currentUser;
+  constructor(private auth: AuthUserService) {
     this.isMyPost = false;
     this.editPost = new EventEmitter();
   }
 
   ngOnInit() {
-    this.isMyPost = typeof this.post !== 'undefined' && this.user.uid === this.post.uid;
+    this.isMyPost = typeof this.post !== 'undefined' && this.auth.getUserId() === this.post.uid;
   }
 
   doEditPost() {
